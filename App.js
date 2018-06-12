@@ -6,7 +6,7 @@ import { createStackNavigator } from 'react-navigation';
 import { 
 	Container, Header, Body, Icon, 
 	Title, Content, Text, Button, Item, Input, 
-	Form, Label, Footer, FooterTab, Spinner
+	Form, Label, Footer, FooterTab, Spinner, Toast
 } from 'native-base';
 import { Row, Grid } from 'react-native-easy-grid';
 import validator from 'validator';
@@ -16,7 +16,7 @@ import validator from 'validator';
 // ]);
 
 // var RegisterScreen = require('./screens/register.js');
-// var FeedsScreen = require('./screens/feeds.js');
+var FeedsScreen = require('./screens/feeds.js');
 // var ImageScreen = require('./screens/images.js');
 // var ExploreScreen = require('./screens/explore.js');
 // var ProfileScreen = require('./screens/profile.js');
@@ -106,14 +106,14 @@ class HomeScreen extends Component {
 				console.log('[app js] componentDidMount json response: ', data);
 				console.log("[app js] LOGGED IN!");
 				// go to feeds page
-				Toast.show({
-					text: 'Login successful',
-					buttonText: 'Ok',
-					position: 'top',
-					duration: 4000
-				});
+				// Toast.show({
+				// 	text: 'Login successful',
+				// 	buttonText: 'Ok',
+				// 	position: 'top',
+				// 	duration: 4000
+				// });
 				console.log('[app js] Response', data);
-				// this.props.navigation.navigate('Feeds', data);
+				this.props.navigation.replace('Feeds', data);
 			});
 		}).catch((error) => {
 			console.log(error);
@@ -134,7 +134,7 @@ class HomeScreen extends Component {
 		console.log('[app js] Loading login page');
 		console.log('[app js] isLoggedIn:', this.state.isLoggedIn);
 		let loginLoader = (
-			<Button disabled={this.state.disableButton} onPress={console.log('[app js] Btn pressed!')}>
+			<Button disabled={this.state.disableButton} onPress={this.onLoginPressHandler}>
 				<Icon name="log-in" /> 
 				<Text style={{fontSize:15}}>Login</Text>
 			</Button>);
@@ -199,6 +199,7 @@ class HomeScreen extends Component {
 const RootStack = createStackNavigator(
 	{
 		Home: HomeScreen,
+		Feeds: FeedsScreen
 	},
 	{
 		initialRouteName: 'Home',
