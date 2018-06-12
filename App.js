@@ -6,7 +6,7 @@ import { createStackNavigator } from 'react-navigation';
 import { 
 	Container, Header, Body, Icon, 
 	Title, Content, Text, Button, Item, Input, 
-	Form, Label, Footer, FooterTab, Spinner, Toast
+	Form, Label, Footer, FooterTab, Spinner, Toast, Root
 } from 'native-base';
 import { Row, Grid } from 'react-native-easy-grid';
 import validator from 'validator';
@@ -38,42 +38,40 @@ class HomeScreen extends Component {
 		id: "",
 		imageSource: "",
 		isLoggedIn: false,
-		disableButton: false
+		isLoginBtnDisabled: false
 	};
 
 	onChangedUsernameHandler = (username) => { if(username) this.setState({ username: username }); }
 	onChangedPasswordHandler = (password) => { if(password) this.setState({ password: password }); }
 
 	onLoginPressHandler = () => {
-		// let disableButton = false
-		// console.log('[app js] disableButton at Start',disableButton)
-		console.log('[app js] Login btn pressed.');
-		this.setState({
-			logUsername: "",
-			logPassword: "",
-			disableButton: true,
-			isLoggedIn: true
-		});
+		
+		console.log('[app js] onLoginPressHandler - Login btn pressed.');
 
+		// clear error messages, if any
+		if(this.state.logUsername.length > 0){
+			this.setState({logUsername: ""});
+		}
+		if(this.state.logPassword.length > 0){
+			this.setState({logPassword: ""});
+		}
+
+		// validate username, stop form submission if not valid
 		if (!validator.isLength(this.state.username, { min: 5 })) {
-			this.setState({ 
-				logUsername: "Min: 5", 
-				disableButton: false,
-				isLoggedIn: false
-			});
+			this.setState({ logUsername: "Min: 5" });
 			return;
 		}
 
+		// validate password, stop form submission if not valid
 		if (!validator.isLength(this.state.password, { min: 5 })) {
-			this.setState({ 
-				logPassword: "Min: 5",
-				disableButton: false,
-				isLoggedIn: false
-			});
+			this.setState({ logPassword: "Min: 5" });
 			return;
 		}
+
+		// set login btn status to disabled
+		this.setState({isLoginBtnDisabled: true});
 	
-		// return fetch('http://localhost:5000/login', {
+		// do a POST request to the api, asking if the login info is correct
 		return fetch('https://app-api-testing.herokuapp.com/login', {
 			method: 'POST',
 			headers: {
@@ -85,11 +83,10 @@ class HomeScreen extends Component {
 				password: this.state.password
 			}),
 		}).then((response) => {
-			console.log('[app js] responseOnLogin: ', response);
+			console.log('[app js] onLoginPressHandler: ', response);
 			if (response.status !== 200) {
-				
-				console.log('[app js] responseOnLogin bad response: ', response);
-				// this.setState({log:"Cannot log in"})
+				// if response for the request is not ok
+				console.log('[app js] onLoginPressHandler - bad response: ', response);
 				Toast.show({
 					text: 'Cannot log in',
 					buttonText: 'Ok',
@@ -97,26 +94,23 @@ class HomeScreen extends Component {
 					duration: 4000
 				});
 				this.setState({
-					disableButton: false,
+					isLoginBtnDisabled: false,
 					isLoggedIn: false
 				});
 				return;
 			}
+
+			// if response for the request is ok
 			response.json().then(data => {
-				console.log('[app js] componentDidMount json response: ', data);
-				console.log("[app js] LOGGED IN!");
+				console.log('[app js] onLoginPressHandler - json response: ', data);
+				console.log("[app js] onLoginPressHandler - LOGGED IN!");
 				// go to feeds page
-				// Toast.show({
-				// 	text: 'Login successful',
-				// 	buttonText: 'Ok',
-				// 	position: 'top',
-				// 	duration: 4000
-				// });
-				console.log('[app js] Response', data);
+				console.log('[app js] onLoginPressHandler - Response', data);
 				this.props.navigation.replace('Feeds', data);
 			});
 		}).catch((error) => {
-			console.log(error);
+			// errors show up here
+			console.log('[app js] onLoginPressHandler - error: ', error);
 		});
 	}
 	
@@ -127,22 +121,24 @@ class HomeScreen extends Component {
 	}
 
 	onLoginLoader = () => {
-		console.log('[app js] Loading login page')
+		console.log('[app js] Loading login page');
 	}
 
 	render() {
 		console.log('[app js] Loading login page');
 		console.log('[app js] isLoggedIn:', this.state.isLoggedIn);
 		let loginLoader = (
-			<Button disabled={this.state.disableButton} onPress={this.onLoginPressHandler}>
+			<Button onPress={this.onLoginPressHandler}>
 				<Icon name="log-in" /> 
 				<Text style={{fontSize:15}}>Login</Text>
-			</Button>);
-		if(this.state.isLoggedIn){
+			</Button>
+		);
+		if(this.state.isLoginBtnDisabled){
 			loginLoader = (
-			<Button disabled={this.state.disableButton}>
-				<Spinner/>
-			</Button>);
+				<Button disabled={this.state.isLoginBtnDisabled}>
+					<Spinner/>
+				</Button>
+			);
 		}
 		return (
 			<Container>
@@ -193,40 +189,6 @@ class HomeScreen extends Component {
 				</Footer>
 			</Container>
 		);
-
-		// <Grid>
-		// 	<Row style={styles.iconContainer}>
-		// 		<Text>Image Goes Here</Text>
-		// 	</Row>
-		// 	<Row style={styles.formContainer}>
-		// 		<Form style={{width:'100%'}}>
-		// 			<Item floatingLabel error={this.state.logUsername.length > 0}>
-		// 				<Label>Username</Label>
-		// 				<Input 
-		// 					onChangeText={(text) => this.onChangedUsernameHandler(text)} 
-		// 					onSubmitEditing = {this.onLoginPressHandler}
-		// 				/>
-		// 			</Item>
-		// 			{this.state.logUsername.length > 0 ? (<Text style={styles.formLogText}>{this.state.logUsername}</Text>) : null}
-
-		// 			<Item floatingLabel error={this.state.logPassword.length > 0}>
-		// 				<Label>Password</Label>
-		// 				<Input
-		// 					secureTextEntry={true} 
-		// 					onChangeText={(text) => this.onChangedPasswordHandler(text)} 
-		// 					onSubmitEditing = {this.onLoginPressHandler}
-		// 				/>
-		// 			</Item>
-		// 			{this.state.logPassword.length > 0 ? (<Text style={styles.formLogText}>{this.state.logPassword}</Text>) : null}
-				
-		// 		</Form>
-		// 		<Button style={{alignSelf:'flex-end'}} transparent onPress={this.onRegisterPressHandler}>
-		// 			<Text style={{fontSize:12}}>Register</Text>
-		// 		</Button>
-		// 		<Text style={{fontSize:12, color:'red'}}>{this.state.log}</Text>
-		// 		<Text style={{ fontSize: 12, color: 'red' }}>{this.state.logDetails}</Text>
-		// 	</Row>
-		// </Grid>
 	}
 }
 
@@ -261,7 +223,7 @@ const RootStack = createStackNavigator(
 
 export default class App extends Component {
 	render() {
-		return <RootStack />;
+		return (<Root><RootStack /></Root>);
 	}
 }
 // const RootStack = StackNavigator(
