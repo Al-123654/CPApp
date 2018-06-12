@@ -166,7 +166,7 @@ class FeedsScreen extends Component {
 		})
 		
 	}
-
+	//componentDidMount
 	componentDidMount = () => {
 		if(this.state.imageIdToDelete){
 			console.log("[feeds js] componentDidMount - feedImagesArray from images: ", this.state.feedImagesArray);
