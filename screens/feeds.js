@@ -13,7 +13,7 @@ import {
 	Card, CardItem, ListItem, List } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 // import Gallery from '../components/Gallery/Gallery';
-// import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
+import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 // import MapView, { Marker , PROVIDER_GOOGLE} from 'react-native-maps';
 // YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated']);
 
@@ -39,10 +39,12 @@ class FeedsScreen extends Component {
         // call props.navigation.state.params here
 		const { params } = this.props.navigation.state;
 		console.log('[feeds js] constructor - Data carried over: ', this.props.navigation.state);
-		// console.log('[feeds js] constructor - Data carried over: params ', this.props.navigation.state.params);
-		// console.log('[feeds js] constructor - Data carried over: params.data ', this.props.navigation.state.params.data);
-		// console.log('[feeds js] constructor - Data carried over: params.processedImages ', this.props.navigation.state.params.processedImages);
-
+		console.log('[feeds js] constructor - GET_USERS_URI: ', GET_USERS_URI)
+		console.log('[feeds js] constructor - GET_RESTAURANT_USERS_URI: ', GET_RESTAURANT_USERS_URI)
+		console.log('[feeds js] constructor - GET_USERS_FOLLOWED_URI: ', GET_USERS_FOLLOWED_URI)
+		console.log('[feeds js] constructor - LOGOUT_URI: ', LOGOUT_URI)
+		console.log('[feeds js] constructor - UPLOAD_URI: ', UPLOAD_URI)
+		console.log('[feeds js] constructor - GET_IMAGES_URI: ', GET_IMAGES_URI)
         //initialize states
         this.state = {
 			passedUsername : props.navigation.state.params.data.username,
@@ -178,9 +180,9 @@ class FeedsScreen extends Component {
 			this.getFollowedImages();
 		}
 		// map-view related setup
-		this.setRegionBasedOnMarkers();
+		// this.setRegionBasedOnMarkers();
 		this.fetchRestaurantUsers();
-		this.setMapMarkers();
+		// this.setMapMarkers();
 	}
 
 	componentDidUpdate(prevProps, prevState){
@@ -720,6 +722,7 @@ class FeedsScreen extends Component {
 		console.log('[feeds js] render - typeof locations:', typeof this.state.locations);
 		console.log('[feeds js] render - mapRegion: ', this.state.mapRegion);
 		console.log('[feeds js] render - mapMarkers:', this.state.mapMarkers);
+		console.log('[feeds js] render - this.state.restaurantUsers:', this.state.restaurantUsers);
 		
 		// let gallery = (<Spinner/>);
 		// let imagePickerButton;
@@ -793,19 +796,19 @@ class FeedsScreen extends Component {
 		// }
 
 		// carousel display
-		// let carousel = (<Spinner/>);
-		// if(this.state.restaurantUsers){
-		// 	carousel = (
-		// 		<Carousel
-		// 			ref={(c) => { this._carousel = c; }}
-		// 			data={this.state.restaurantUsers}
-		// 			renderItem={this._renderItem.bind(this)}
-		// 			sliderWidth={Dimensions.get('window').width}
-		// 			itemWidth={Dimensions.get('window').width * 0.85}
-		// 			hasParallaxImages={true}
-		// 		/>
-		// 	);
-		// }
+		let carousel = (<Spinner/>);
+		if(this.state.restaurantUsers){
+			carousel = (
+				<Carousel
+					ref={(c) => { this._carousel = c; }}
+					data={this.state.restaurantUsers}
+					renderItem={this._renderItem.bind(this)}
+					sliderWidth={Dimensions.get('window').width}
+					itemWidth={Dimensions.get('window').width * 0.85}
+					hasParallaxImages={true}
+				/>
+			);
+		}
 
 		// display map only if there are markers available
 		// let displayMap;
@@ -832,36 +835,36 @@ class FeedsScreen extends Component {
 		// 	)
 		// }
 
-        // return (
-		// 	<Container>
-		// 		<Header>
-		// 			<Left></Left>
-		// 			<Body><Title>{this.state.passedUsername}</Title></Body>
-		// 			<Right>
-		// 				{logoutLoader}
-		// 			</Right>
-		// 		</Header>
-		// 		<Content>
-		// 			<Row style = {{marginTop: 10, alignItems: 'center', }}>
-		// 				<Text style={{ fontSize: 20, fontWeight: 'bold', marginLeft: 50 }}>Feeds</Text>
-		// 			</Row>
-		// 			<Row style={{ marginTop: 10, marginLeft: 50, flex: 1, alignItems: 'center' }}>
-		// 				{gallery}
-		// 			</Row>
+        return (
+			<Container>
+				<Header>
+					<Left></Left>
+					<Body><Title>{this.state.passedUsername}</Title></Body>
+					<Right>
+						{/* {logoutLoader} */}
+					</Right>
+				</Header>
+				<Content>
+					<Row style = {{marginTop: 10, alignItems: 'center', }}>
+						<Text style={{ fontSize: 20, fontWeight: 'bold', marginLeft: 50 }}>Feeds</Text>
+					</Row>
+					{/* <Row style={{ marginTop: 10, marginLeft: 50, flex: 1, alignItems: 'center' }}>
+						{gallery}
+					</Row> */}
 
-		// 			<Row style={{ marginTop: 20, alignItems: 'center', }}>
-		// 				<Text style={{ fontSize: 20, fontWeight: 'bold',marginLeft: 50}}>Restaurants</Text>
-		// 			</Row>
-		// 			<Row style = {{marginTop: 10, marginLeft: 20}}>
-		// 				{carousel}
-		// 			</Row>
-		// 			<Row style = {{marginTop:40}}>
-		// 				{displayMap}
-		// 			</Row>
-		// 		</Content>
-		// 		{footers}
-		// 	</Container>
-        // );
+					<Row style={{ marginTop: 20, alignItems: 'center', }}>
+						<Text style={{ fontSize: 20, fontWeight: 'bold',marginLeft: 50}}>Restaurants</Text>
+					</Row>
+					<Row style = {{marginTop: 10, marginLeft: 20}}>
+						{carousel}
+					</Row>
+					{/* <Row style = {{marginTop:40}}>
+						{displayMap}
+					</Row> */}
+				</Content>
+				{/* {footers} */}
+			</Container>
+        );
         return (
             <Text>Feeds js</Text>
         );
