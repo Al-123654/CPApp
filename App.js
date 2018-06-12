@@ -153,12 +153,12 @@ class HomeScreen extends Component {
 				</Header>
 				<Content>
 					<Grid>
-						<Row style={styles.iconContainer}>
-							<Text>Image Goes Here</Text>
+					 	<Row style={styles.iconContainer}>
+					 		<Text>Image Goes Here</Text>
 						</Row>
 						<Row style={styles.formContainer}>
 							<Form style={{width:'100%'}}>
-								<Item floatingLabel error={this.state.logUsername.length > 0}>
+								<Item stackedLabel error={this.state.logUsername.length > 0}>
 									<Label>Username</Label>
 									<Input 
 										onChangeText={(text) => this.onChangedUsernameHandler(text)} 
@@ -167,7 +167,7 @@ class HomeScreen extends Component {
 								</Item>
 								{this.state.logUsername.length > 0 ? (<Text style={styles.formLogText}>{this.state.logUsername}</Text>) : null}
 
-								<Item floatingLabel error={this.state.logPassword.length > 0}>
+								<Item stackedLabel error={this.state.logPassword.length > 0}>
 									<Label>Password</Label>
 									<Input
 										secureTextEntry={true} 
@@ -176,15 +176,15 @@ class HomeScreen extends Component {
 									/>
 								</Item>
 								{this.state.logPassword.length > 0 ? (<Text style={styles.formLogText}>{this.state.logPassword}</Text>) : null}
-							
 							</Form>
 							<Button style={{alignSelf:'flex-end'}} transparent onPress={this.onRegisterPressHandler}>
-								<Text style={{fontSize:12}}>Register</Text>
+							<Text style={{fontSize:12}}>Register</Text>
 							</Button>
 							<Text style={{fontSize:12, color:'red'}}>{this.state.log}</Text>
 							<Text style={{ fontSize: 12, color: 'red' }}>{this.state.logDetails}</Text>
 						</Row>
 					</Grid>
+					
 				</Content>
 				<Footer>
 					<FooterTab>
@@ -193,6 +193,40 @@ class HomeScreen extends Component {
 				</Footer>
 			</Container>
 		);
+
+		// <Grid>
+		// 	<Row style={styles.iconContainer}>
+		// 		<Text>Image Goes Here</Text>
+		// 	</Row>
+		// 	<Row style={styles.formContainer}>
+		// 		<Form style={{width:'100%'}}>
+		// 			<Item floatingLabel error={this.state.logUsername.length > 0}>
+		// 				<Label>Username</Label>
+		// 				<Input 
+		// 					onChangeText={(text) => this.onChangedUsernameHandler(text)} 
+		// 					onSubmitEditing = {this.onLoginPressHandler}
+		// 				/>
+		// 			</Item>
+		// 			{this.state.logUsername.length > 0 ? (<Text style={styles.formLogText}>{this.state.logUsername}</Text>) : null}
+
+		// 			<Item floatingLabel error={this.state.logPassword.length > 0}>
+		// 				<Label>Password</Label>
+		// 				<Input
+		// 					secureTextEntry={true} 
+		// 					onChangeText={(text) => this.onChangedPasswordHandler(text)} 
+		// 					onSubmitEditing = {this.onLoginPressHandler}
+		// 				/>
+		// 			</Item>
+		// 			{this.state.logPassword.length > 0 ? (<Text style={styles.formLogText}>{this.state.logPassword}</Text>) : null}
+				
+		// 		</Form>
+		// 		<Button style={{alignSelf:'flex-end'}} transparent onPress={this.onRegisterPressHandler}>
+		// 			<Text style={{fontSize:12}}>Register</Text>
+		// 		</Button>
+		// 		<Text style={{fontSize:12, color:'red'}}>{this.state.log}</Text>
+		// 		<Text style={{ fontSize: 12, color: 'red' }}>{this.state.logDetails}</Text>
+		// 	</Row>
+		// </Grid>
 	}
 }
 
