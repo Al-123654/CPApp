@@ -227,7 +227,7 @@ class RegisterScreen extends Component {
 				</Header>
 				<Content>
 					<Form>
-						<Item floatingLabel error={this.state.logUsername.length > 0}>
+						<Item stackedLabel error={this.state.logUsername.length > 0}>
 							<Label>Username</Label>
                             <Input onChangeText={(text) => this.onChangedUsernameHandler(text)}
                                 onSubmitEditing = {this.onRegisterFinishedHandler}
@@ -235,7 +235,7 @@ class RegisterScreen extends Component {
 						</Item>
 						{this.state.logUsername.length > 0 ? (<Text style={styles.formLogText}>{this.state.logUsername}</Text>) : null}
 
-						<Item floatingLabel error={this.state.logPassword.length > 0}>
+						<Item stackedLabel error={this.state.logPassword.length > 0}>
 							<Label>Password</Label>
 							<Input onChangeText={(text) => this.onChangedPasswordHandler(text)} 
                                 onSubmitEditing={this.onRegisterFinishedHandler}
@@ -244,7 +244,7 @@ class RegisterScreen extends Component {
 						</Item>
 						{this.state.logPassword.length > 0 ? (<Text style={styles.formLogText}>{this.state.logPassword}</Text>) : null}
 
-						<Item floatingLabel error={this.state.logFname.length > 0}>
+						<Item stackedLabel error={this.state.logFname.length > 0}>
 							<Label>First name</Label>
 							<Input onChangeText={(text) => this.onChangedFnameHandler(text)} 
                                 onSubmitEditing={this.onRegisterFinishedHandler}
@@ -252,7 +252,7 @@ class RegisterScreen extends Component {
 						</Item>
 						{this.state.logFname.length > 0 ? (<Text style={styles.formLogText}>{this.state.logFname}</Text>) : null}
 
-						<Item floatingLabel error={this.state.logLname.length > 0}>
+						<Item stackedLabel error={this.state.logLname.length > 0}>
 							<Label>Last name</Label>
 							<Input onChangeText={(text) => this.onChangedLnameHandler(text)} 
                                 onSubmitEditing={this.onRegisterFinishedHandler}
@@ -260,7 +260,7 @@ class RegisterScreen extends Component {
 						</Item>
 						{this.state.logLname.length > 0 ? (<Text style={styles.formLogText}>{this.state.logLname}</Text>) : null}
 
-						<Item floatingLabel last error={this.state.logEmail.length > 0}>
+						<Item stackedLabel last error={this.state.logEmail.length > 0}>
 							<Label>Email</Label>
 							<Input onChangeText={(text) => this.onChangedEmailHandler(text)} 
                                 onSubmitEditing={this.onRegisterFinishedHandler}
