@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Platform, StyleSheet, View, Image, YellowBox } from 'react-native';
+import { StyleSheet, YellowBox } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 // import { StackNavigator, navigationOptions} from 'react-navigation';
 
@@ -15,7 +15,7 @@ import validator from 'validator';
 // 	'Module RNFetchBlob requires main queue setup'
 // ]);
 
-// var RegisterScreen = require('./screens/register.js');
+var RegisterScreen = require('./screens/register.js');
 var FeedsScreen = require('./screens/feeds.js');
 // var ImageScreen = require('./screens/images.js');
 // var ExploreScreen = require('./screens/explore.js');
@@ -120,11 +120,11 @@ class HomeScreen extends Component {
 		});
 	}
 	
-	// onRegisterPressHandler = () => {
-	// 	console.log('[app js] Register btn pressed.');
-	// 	// this.props.navigation.navigate('Register');
-	// 	this.props.navigation.navigate({ key: 'Register1', routeName: 'Register'});
-	// }
+	onRegisterPressHandler = () => {
+		console.log('[app js] Register btn pressed.');
+		this.props.navigation.navigate('Register');
+		// this.props.navigation.push({ key: 'Register1', routeName: 'Register'});
+	}
 
 	onLoginLoader = () => {
 		console.log('[app js] Loading login page')
@@ -199,7 +199,8 @@ class HomeScreen extends Component {
 const RootStack = createStackNavigator(
 	{
 		Home: HomeScreen,
-		Feeds: FeedsScreen
+		Feeds: FeedsScreen,
+		Register: RegisterScreen
 	},
 	{
 		initialRouteName: 'Home',
