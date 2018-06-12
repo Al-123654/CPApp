@@ -222,6 +222,7 @@ const RootStack = createStackNavigator(
 );
 
 export default class App extends Component {
+	// wrap rootstack with root for Toast messages to work normally
 	render() {
 		return (<Root><RootStack /></Root>);
 	}
