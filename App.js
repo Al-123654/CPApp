@@ -198,9 +198,27 @@ class HomeScreen extends Component {
 
 const RootStack = createStackNavigator(
 	{
-		Home: HomeScreen,
-		Feeds: FeedsScreen,
-		Register: RegisterScreen
+		Home: {
+			screen: HomeScreen,
+			navigationOptions: {
+				header: null,
+				gesturesEnabled: false
+			}
+		},
+		Feeds: {
+			screen: FeedsScreen,
+			navigationOptions: {
+				header: null,
+				gesturesEnabled: false
+			}
+		},
+		Register: {
+			screen: RegisterScreen,
+			navigationOptions: {
+				header: null,
+				gesturesEnabled: false
+			}
+		}
 	},
 	{
 		initialRouteName: 'Home',
