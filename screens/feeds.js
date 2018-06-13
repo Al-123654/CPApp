@@ -3,7 +3,7 @@ import {
 	Platform, Dimensions, StyleSheet, View, Image, 
 	Alert , TouchableOpacity, TouchableHighlight, YellowBox} from 'react-native';
 // import { StackNavigator, NavigationActions  } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation';
+import { createStackNavigator, NavigationActions} from 'react-navigation';
 // import ImagePicker from 'react-native-image-picker';
 // import RNFetchBlob from 'react-native-fetch-blob';
 import { 
@@ -20,7 +20,7 @@ import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 
 // const GET_USERS_URI = 'http://localhost:5000/api/users/';
 // const GET_USERS_FOLLOWED_URI = 'http://localhost:5000/api/users?followed=followed';
-// const GET_IMAGES_URI = 'http://localhost:5000/api/images/';
+// const GET_FOOD_URI = 'http://localhost:5000/api/images/';
 // const LOGOUT_URI = 'http://localhost:5000/logout';
 // const GET_RESTAURANT_USERS_URI = 'http://localhost:5000/api/users?user=2';
 
@@ -30,7 +30,7 @@ const GET_RESTAURANT_USERS_URI = 'https://app-api-testing.herokuapp.com/api/user
 const GET_USERS_FOLLOWED_URI = 'https://app-api-testing.herokuapp.com/api/users?followed=1';
 const LOGOUT_URI = 'https://app-api-testing.herokuapp.com/logout';
 const UPLOAD_URI = 'https://app-api-testing.herokuapp.com/upload';
-const GET_IMAGES_URI = 'https://app-api-testing.herokuapp.com/api/images/';
+const GET_FOOD_URI = 'https://app-api-testing.herokuapp.com/api/images/';
 
 class FeedsScreen extends Component {
 	constructor(props) {
@@ -44,7 +44,7 @@ class FeedsScreen extends Component {
 		console.log('[feeds js] constructor - GET_USERS_FOLLOWED_URI: ', GET_USERS_FOLLOWED_URI)
 		console.log('[feeds js] constructor - LOGOUT_URI: ', LOGOUT_URI)
 		console.log('[feeds js] constructor - UPLOAD_URI: ', UPLOAD_URI)
-		console.log('[feeds js] constructor - GET_IMAGES_URI: ', GET_IMAGES_URI)
+		console.log('[feeds js] constructor - GET_FOOD_URI: ', GET_FOOD_URI)
         //initialize states
         this.state = {
 			passedUsername : props.navigation.state.params.data.username,
@@ -92,12 +92,7 @@ class FeedsScreen extends Component {
 			console.log('[feeds js] fetchRestaurantUsers - response: ', response);
 			if (response.status !== 200) {
 				console.log('[feeds js] fetchRestaurantUsers - bad response: ', response);
-				Toast.show({
-					text: 'Cannot fetch restaurants',
-					buttonText: 'Ok',
-					position: 'top',
-					duration: 2000
-				});
+				console.log('[feeds js] fetchRestaurantUsers - Cannot fetch restaurants')
 				return;
 			}
 			response.json().then(data => {
@@ -132,7 +127,7 @@ class FeedsScreen extends Component {
 				<TouchableOpacity onPress = {() => {this.goToRestaurant(item)}}
 				>
 					<ParallaxImage
-						source={{ uri: GET_IMAGES_URI + item.images[0] + '/display' }}
+						source={{ uri: GET_FOOD_URI + item.images[0] + '/display' }}
 						containerStyle={styles.imageContainer}
 						style={styles.image}
 						parallaxFactor={0.2}
@@ -364,7 +359,7 @@ class FeedsScreen extends Component {
 		});
 		// if role is 2
 		if (this.state.role === 2) {
-			return fetch(GET_IMAGES_URI + imageId, {
+			return fetch(GET_FOOD_URI + imageId, {
 				method: 'DELETE',
 				headers: {
 					Accept: 'application/json',
@@ -504,7 +499,7 @@ class FeedsScreen extends Component {
 						// check image array length
 						if (followedUser.images.length >= 1) {
 							let followedImagesArray2 = followedUser.images.map((imageId, index) => {
-								let tempImageUri = GET_IMAGES_URI + imageId + '/display';
+								let tempImageUri = GET_FOOD_URI + imageId + '/display';
 								return (
 									<Button
 										transparent style={styles.thumbnail}
@@ -577,14 +572,14 @@ class FeedsScreen extends Component {
 	}
 
 	// when Explore btn is clicked
-	onExplorePressedHandler = (currentUserId) => {
-		console.log('[feeds js] onExplorePressedHandler - clicked!');
-		console.log('[feeds js] onExplorePressedHandler - ID passed by app js: ', currentUserId);
-		this.props.navigation.navigate({ key: 'Explore1', routeName: 'Explore', params: {
-				currentUserId:currentUserId
-			} 
-		});
-	};
+	// onExplorePressedHandler = (currentUserId) => {
+	// 	console.log('[feeds js] onExplorePressedHandler - clicked!');
+	// 	console.log('[feeds js] onExplorePressedHandler - ID passed by app js: ', currentUserId);
+	// 	this.props.navigation.navigate({ key: 'Explore1', routeName: 'Explore', params: {
+	// 			currentUserId:currentUserId
+	// 		} 
+	// 	});
+	// };
 	//upload image logic
 	onImagePickerHandler = () => {
 		if(this.state.role == 2){
@@ -660,7 +655,7 @@ class FeedsScreen extends Component {
 	onImageClicked = (imageId,passedId) => {
         console.log("[feeds js] onImageClicked - imageId: ", imageId );
         console.log("[feeds js] onImageClicked - passedId: ", passedId );
-        return fetch(GET_IMAGES_URI+ imageId, {
+        return fetch(GET_FOOD_URI+ imageId, {
             method: 'GET',
             headers:{
                 Accept: 'application/json',
@@ -722,11 +717,11 @@ class FeedsScreen extends Component {
 		
 		// let gallery = (<Spinner/>);
 		// let imagePickerButton;
-		// let logoutLoader = (
-		// 	<Button transparent onPress={this.onLogoutHandler}>
-		// 		<Icon name='home' />
-		// 	</Button>
-		// );
+		let logoutLoader = (
+			<Button transparent onPress={this.onLogoutHandler}>
+				<Icon name='home' />
+			</Button>
+		);
 		// console.log('[feeds js] render - testFunction: ', this.testFunction)
 		// console.log('[feeds js] render - onImageClicked: ', this.onImageClicked)
 		// //render images
@@ -745,13 +740,13 @@ class FeedsScreen extends Component {
 		// 	}
 		// }
 
-		// if(this.state.isLoggedOut){
-		// 	logoutLoader = (
-		// 		<Button transparent disabled ={this.state.disableButtonLogout}>
-		// 			<Spinner/>
-		// 		</Button>
-		// 	)
-		// }
+		if(this.state.isLoggedOut){
+			logoutLoader = (
+				<Button transparent disabled ={this.state.disableButtonLogout}>
+					<Spinner/>
+				</Button>
+			)
+		}
 
 		// if(this.state.role == 2){
 		// 	footers = (
@@ -837,7 +832,7 @@ class FeedsScreen extends Component {
 					<Left></Left>
 					<Body><Title>{this.state.passedUsername}</Title></Body>
 					<Right>
-						{/* {logoutLoader} */}
+						{logoutLoader}
 					</Right>
 				</Header>
 				<Content>
