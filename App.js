@@ -17,7 +17,7 @@ import validator from 'validator';
 
 var RegisterScreen = require('./screens/register.js');
 var FeedsScreen = require('./screens/feeds.js');
-// var ImageScreen = require('./screens/images.js');
+var FoodScreen = require('./screens/food.js');
 // var ExploreScreen = require('./screens/explore.js');
 // var ProfileScreen = require('./screens/profile.js');
 // var UserScreen = require('./screens/user.js');
@@ -214,6 +214,13 @@ const RootStack = createStackNavigator(
 				header: null,
 				gesturesEnabled: false
 			}
+		},
+		Food: {
+			screen: FoodScreen,
+			navigationOptions: {
+				header: null,
+				gesturesEnabled: false
+			}
 		}
 	},
 	{
@@ -295,17 +302,6 @@ export default class App extends Component {
 // 	},
 // 	{initialRouteName: 'Home'}
 // );
-
-// export default class App extends Component {
-// 	render() {
-// 		return <RootStack />;
-// 	}
-// }
-
-// export default () =>
-// 	<Root>
-// 		<RootStack/>
-// 	</Root>;
 
 const styles = StyleSheet.create({
 	iconContainer: {
