@@ -16,7 +16,7 @@ import Gallery from '../components/Gallery/Gallery';
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 import MapView, { Marker , PROVIDER_GOOGLE} from 'react-native-maps';
 // YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated']);
-
+// AIzaSyDGlZ-Zj1QuEX-u_77q2YZg3hRe1yEptM4
 
 // const GET_USERS_URI = 'http://localhost:5000/api/users/';
 // const GET_USERS_FOLLOWED_URI = 'http://localhost:5000/api/users?followed=followed';
