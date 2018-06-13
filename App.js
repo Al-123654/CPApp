@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import { StyleSheet, YellowBox } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
-// import { StackNavigator, navigationOptions} from 'react-navigation';
-
 import { 
 	Container, Header, Body, Icon, 
 	Title, Content, Text, Button, Item, Input, 
@@ -49,12 +47,8 @@ class HomeScreen extends Component {
 		console.log('[app js] onLoginPressHandler - Login btn pressed.');
 
 		// clear error messages, if any
-		if(this.state.logUsername.length > 0){
-			this.setState({logUsername: ""});
-		}
-		if(this.state.logPassword.length > 0){
-			this.setState({logPassword: ""});
-		}
+		if(this.state.logUsername.length > 0){ this.setState({logUsername: ""}); }
+		if(this.state.logPassword.length > 0){ this.setState({logPassword: ""}); }
 
 		// validate username, stop form submission if not valid
 		if (!validator.isLength(this.state.username, { min: 5 })) {
@@ -104,8 +98,8 @@ class HomeScreen extends Component {
 			response.json().then(data => {
 				console.log('[app js] onLoginPressHandler - json response: ', data);
 				console.log("[app js] onLoginPressHandler - LOGGED IN!");
-				// go to feeds page
 				console.log('[app js] onLoginPressHandler - Response', data);
+				// go to feeds page, passing data
 				this.props.navigation.replace('Feeds', data);
 			});
 		}).catch((error) => {
@@ -115,26 +109,24 @@ class HomeScreen extends Component {
 	}
 	
 	onRegisterPressHandler = () => {
-		console.log('[app js] Register btn pressed.');
+		console.log('[app js] onRegisterPressHandler - Register btn pressed.');
+		// go to register page
 		this.props.navigation.navigate('Register');
 		// this.props.navigation.push({ key: 'Register1', routeName: 'Register'});
 	}
 
-	onLoginLoader = () => {
-		console.log('[app js] Loading login page');
-	}
-
 	render() {
-		console.log('[app js] Loading login page');
-		console.log('[app js] isLoggedIn:', this.state.isLoggedIn);
-		let loginLoader = (
+		console.log('[app js] render');
+		console.log('[app js] render - isLoggedIn:', this.state.isLoggedIn);
+		let loginBtn = (
 			<Button onPress={this.onLoginPressHandler}>
 				<Icon name="log-in" /> 
 				<Text style={{fontSize:15}}>Login</Text>
 			</Button>
 		);
 		if(this.state.isLoginBtnDisabled){
-			loginLoader = (
+			// replace icon and text with spinner when login btn is disabled
+			loginBtn = (
 				<Button disabled={this.state.isLoginBtnDisabled}>
 					<Spinner/>
 				</Button>
@@ -184,7 +176,7 @@ class HomeScreen extends Component {
 				</Content>
 				<Footer>
 					<FooterTab>
-							{loginLoader}
+							{loginBtn}
 					</FooterTab>
 				</Footer>
 			</Container>
@@ -192,6 +184,7 @@ class HomeScreen extends Component {
 	}
 }
 
+// for react-navigation
 const RootStack = createStackNavigator(
 	{
 		Home: {
