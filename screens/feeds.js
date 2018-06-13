@@ -14,7 +14,7 @@ import {
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import Gallery from '../components/Gallery/Gallery';
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
-// import MapView, { Marker , PROVIDER_GOOGLE} from 'react-native-maps';
+import MapView, { Marker , PROVIDER_GOOGLE} from 'react-native-maps';
 // YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated']);
 
 
@@ -803,29 +803,29 @@ class FeedsScreen extends Component {
 		}
 
 		// display map only if there are markers available
-		// let displayMap;
-		// if(this.state.locations.length > 0){
-		// 	displayMap = (
-		// 		<View style= {{width: '100%'}}>
-		// 			<Label style={{alignItems: 'center', marginLeft: 130, marginBottom: 10, fontSize: 20, fontWeight:'bold'}}>Saved restaurants</Label>
-		// 			<MapView
-		// 				ref={map => this.map = map}
-		// 				style={styles.mapContainer}
-		// 				initialRegion={this.state.mapRegion}
-		// 			>
-		// 				{this.state.mapMarkers}
-		// 			</MapView>
-		// 		</View>
-		// 	)
+		let displayMap;
+		if(this.state.locations.length > 0){
+			displayMap = (
+				<View style= {{width: '100%'}}>
+					<Label style={{alignItems: 'center', marginLeft: 130, marginBottom: 10, fontSize: 20, fontWeight:'bold'}}>Saved restaurants</Label>
+					<MapView
+						ref={map => this.map = map}
+						style={styles.mapContainer}
+						initialRegion={this.state.mapRegion}
+					>
+						{this.state.mapMarkers}
+					</MapView>
+				</View>
+			)
 			
-		// }else{
-		// 	displayMap = (
-		// 		<View style={{ alignItems: 'center', marginLeft: 90, marginTop: 50 }}>
-		// 			<Icon style={{ fontSize: 50, color: 'grey'  }} name='ios-close-circle-outline' />
-		// 			<Text>No saved restaurants available</Text>
-		// 		</View>
-		// 	)
-		// }
+		}else{
+			displayMap = (
+				<View style={{ alignItems: 'center', marginLeft: 90, marginTop: 50 }}>
+					<Icon style={{ fontSize: 50, color: 'grey'  }} name='ios-close-circle-outline' />
+					<Text>No saved restaurants available</Text>
+				</View>
+			)
+		}
 
         return (
 			<Container>
@@ -850,9 +850,9 @@ class FeedsScreen extends Component {
 					<Row style = {{marginTop: 10, marginLeft: 20}}>
 						{carousel}
 					</Row>
-					{/* <Row style = {{marginTop:40}}>
+					<Row style = {{marginTop:40}}>
 						{displayMap}
-					</Row> */}
+					</Row>
 				</Content>
 				{/* {footers} */}
 			</Container>
