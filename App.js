@@ -19,7 +19,7 @@ var FoodScreen = require('./screens/food.js');
 // var ExploreScreen = require('./screens/explore.js');
 // var ProfileScreen = require('./screens/profile.js');
 // var UserScreen = require('./screens/user.js');
-// var RestaurantScreen = require('./screens/restaurant.js');
+var RestaurantScreen = require('./screens/restaurant.js');
 // var EditScreen = require('./screens/editProfile.js')
 
 class HomeScreen extends Component {
@@ -214,7 +214,14 @@ const RootStack = createStackNavigator(
 				header: null,
 				gesturesEnabled: false
 			}
-		}
+		},
+		Restaurant:{
+			screen: RestaurantScreen,
+			navigationOptions: {
+				header: null,
+				gesturesEnabled: false
+			}
+		},
 	},
 	{
 		initialRouteName: 'Home',
