@@ -3,7 +3,7 @@ import {
 	Platform, Dimensions, StyleSheet, View, Image, 
 	Alert , TouchableOpacity, TouchableHighlight, YellowBox} from 'react-native';
 // import { StackNavigator, NavigationActions  } from 'react-navigation';
-import { createStackNavigator, NavigationActions} from 'react-navigation';
+import { createStackNavigator, NavigationActions, StackActions} from 'react-navigation';
 // import ImagePicker from 'react-native-image-picker';
 // import RNFetchBlob from 'react-native-fetch-blob';
 import { 
@@ -12,7 +12,7 @@ import {
 	Form, Label, Thumbnail, Footer, FooterTab, Spinner, Toast, Drawer,
 	Card, CardItem, ListItem, List } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
-// import Gallery from '../components/Gallery/Gallery';
+import Gallery from '../components/Gallery/Gallery';
 import Carousel, { ParallaxImage } from 'react-native-snap-carousel';
 // import MapView, { Marker , PROVIDER_GOOGLE} from 'react-native-maps';
 // YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated']);
@@ -521,7 +521,7 @@ class FeedsScreen extends Component {
 				.catch(error => console.log('[feeds js] getFollowedImages - MULTIPLE followed fetch error: ', error));
 		}
 	}
-	
+	// log out logic
 	onLogoutHandler = () => {
 
 		Alert.alert(
@@ -549,7 +549,8 @@ class FeedsScreen extends Component {
                                     duration: 4000
                                 })
 								console.log("[feeds js] onLogoutPressHandler - LOGGING OUT!");
-								const resetAction = NavigationActions.reset({
+								// return back to Home and reset the state
+								const resetAction = StackActions.reset({
 									index: 0,
 									actions: [NavigationActions.navigate({ routeName: 'Home' })],
 								});
@@ -665,7 +666,7 @@ class FeedsScreen extends Component {
 		.then (response => response.json())
         .then(response => {
             console.log('[feeds js] onImageClicked - response from server: ', response);
-			this.props.navigation.navigate({ key: 'Images1', routeName: 'Image', params: { 
+			this.props.navigation.navigate({ key: 'Food1', routeName: 'Food', params: { 
 					data:response,
 					userId: passedId,
 					userData: this.props.navigation.state.params,
@@ -715,7 +716,7 @@ class FeedsScreen extends Component {
 		console.log('[feeds js] render - mapMarkers:', this.state.mapMarkers);
 		console.log('[feeds js] render - this.state.restaurantUsers:', this.state.restaurantUsers);
 		
-		// let gallery = (<Spinner/>);
+		let gallery = (<Spinner/>);
 		// let imagePickerButton;
 		let logoutLoader = (
 			<Button transparent onPress={this.onLogoutHandler}>
@@ -725,20 +726,20 @@ class FeedsScreen extends Component {
 		// console.log('[feeds js] render - testFunction: ', this.testFunction)
 		// console.log('[feeds js] render - onImageClicked: ', this.onImageClicked)
 		// //render images
-		// if(this.state.feedImagesArray && this.state.areImagesLoaded){
-		// 	if (this.state.feedImagesArray.length > 0) {
-		// 		gallery = (
-		// 		<Gallery
-		// 			images={this.state.feedImagesArray}
-		// 			clicked={this.onImageClicked}
-		// 			longclick={this.onImageDelete}
-		// 			passedUserId={this.state.passedId}
-		// 		/>);
+		if(this.state.feedImagesArray && this.state.areImagesLoaded){
+			if (this.state.feedImagesArray.length > 0) {
+				gallery = (
+				<Gallery
+					images={this.state.feedImagesArray}
+					clicked={this.onImageClicked}
+					longclick={this.onImageDelete}
+					passedUserId={this.state.passedId}
+				/>);
 				
-		// 	} else if (this.state.feedImagesArray.length === 0) {
-		// 		gallery = (<Text>No images available</Text>);
-		// 	}
-		// }
+			} else if (this.state.feedImagesArray.length === 0) {
+				gallery = (<Text>No images available</Text>);
+			}
+		}
 
 		if(this.state.isLoggedOut){
 			logoutLoader = (
@@ -839,9 +840,9 @@ class FeedsScreen extends Component {
 					<Row style = {{marginTop: 10, alignItems: 'center', }}>
 						<Text style={{ fontSize: 20, fontWeight: 'bold', marginLeft: 50 }}>Feeds</Text>
 					</Row>
-					{/* <Row style={{ marginTop: 10, marginLeft: 50, flex: 1, alignItems: 'center' }}>
+					<Row style={{ marginTop: 10, marginLeft: 50, flex: 1, alignItems: 'center' }}>
 						{gallery}
-					</Row> */}
+					</Row>
 
 					<Row style={{ marginTop: 20, alignItems: 'center', }}>
 						<Text style={{ fontSize: 20, fontWeight: 'bold',marginLeft: 50}}>Restaurants</Text>
